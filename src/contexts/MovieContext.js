@@ -18,7 +18,7 @@ export function MovieProvider(props) {
   }
 
   const { currentUser } = useContext(AuthContext);
-  const userId = currentUser.uid;
+  const userId = currentUser ? currentUser.uid : null;
 
   function createNote(title, img, note, label) {
     const newNote = {
