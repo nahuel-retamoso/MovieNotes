@@ -3,9 +3,9 @@ import Modal from "../Modal";
 
 function Card (props) {
     return (
-        <GridItem w='100%' bg='whiteAlpha.900' shadow={'md'} h='350px' display={'flex'} flexDirection='column' alignItems='center' justifyContent='center'>
-            <Image src={props.image} alt='image' boxSize='150px'/>
-            <Text fontSize='lg' m={'18px'} color='blackAlpha.800'>{props.title}</Text>
+        <GridItem w='100%' bgGradient='linear(to-t, #fffff5, #edede9)' shadow={'base'} h='390px' display={'flex'} flexDirection='column' alignItems='center' justifyContent='center'>
+            <Image src={props.image} alt='image' mt='3%' mb='3%' boxSize='230px' boxShadow='dark-lg'/>
+            <Text fontSize='lg' m={'18px'} color='blackAlpha.700'>{props.title}</Text>
             <Modal title = { props.title } image = { props.image }/>
          </GridItem>
     )

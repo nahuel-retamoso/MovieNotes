@@ -38,6 +38,10 @@ function MovieModal (props) {
     const noteRef = useRef();
 
     const addLabel = (label) => {
+      //aniadir solo las labels que no se repitan
+      if (noteLabel.includes(label)) {
+        return
+      }
       setNoteLabel([...noteLabel, label])
     }
 
@@ -56,17 +60,17 @@ function MovieModal (props) {
 
     return (
         <>
-          <Button onClick={onOpen}>Save</Button>
+          <Button onClick={onOpen} bgColor='yellow.200' color='blackAlpha.700' _hover={{backgroundColor: 'yellow.300'}}>Select</Button>
     
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent align='center'>
-              <ModalHeader>{props.title}</ModalHeader>
+              <ModalHeader mt='4%' >{props.title}</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
                 <Flex direction='column' justify='center' align='center' mb='2%'>
-                  <Image src={props.image} alt='image' boxSize='150px' mb='8%' />
-                  <Textarea placeholder='Writte your notes about the movie' ref={noteRef}/>
+                  <Image src={props.image} alt='image' boxSize='380px' mb='8%' />
+                  <Textarea w='95%' placeholder='Writte your notes about the movie' ref={noteRef}/>
                 </Flex>
                 <HStack spacing={4}>
 
@@ -86,7 +90,7 @@ function MovieModal (props) {
                           <Input placeholder='New Label' onKeyPress={event => { if (event.key === 'Enter') { addLabel(labelInputRef.current.value); onClose() }}} ref={labelInputRef} />
                           <VStack spacing={2}>
                             {labels ? labels.map((label, index) => (
-                              <Button key={index} onClick={addLabel}>{label}</Button>
+                              <Button key={index} onClick={() => addLabel(label)}>{label}</Button>
                             )): null}
                           </VStack>
                         </PopoverBody>
@@ -100,9 +104,9 @@ function MovieModal (props) {
               </ModalBody>
     
               <ModalFooter>
-                <Button colorScheme='blue' mr={3} onClick={handleSubmit}>
-                  Add
-                </Button>
+                  <Button colorScheme='green' mr='42%' onClick={handleSubmit}>
+                    Add
+                  </Button>
               </ModalFooter>
             </ModalContent>
           </Modal>
