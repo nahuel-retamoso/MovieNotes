@@ -25,7 +25,7 @@ import { Modal,
     VStack,
     Tag
   } from '@chakra-ui/react'
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import MovieContext  from '../contexts/MovieContext';
 
 function MovieModal (props) {
@@ -34,11 +34,11 @@ function MovieModal (props) {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [noteLabel, setNoteLabel] = useState([])
+    const [text, setText] = useState("");
 
     const noteRef = useRef();
 
     const addLabel = (label) => {
-      //aniadir solo las labels que no se repitan
       if (noteLabel.includes(label)) {
         return
       }
@@ -48,7 +48,7 @@ function MovieModal (props) {
     async function handleSubmit (e) {
         e.preventDefault();
         try {
-          await createNote(props.title, props.image, noteRef.current.value, noteLabel)
+          await createNote(props.title, props.image, text, noteLabel)
           onClose()
         } catch {
           console.log('error')
@@ -56,11 +56,15 @@ function MovieModal (props) {
     }
 
     const labelInputRef = useRef();
+
+    useEffect(() => {
+      setText(props.note)
+    }, [])
     
 
     return (
         <>
-          <Button onClick={onOpen} bgColor='yellow.200' color='blackAlpha.700' _hover={{backgroundColor: 'yellow.300'}}>Select</Button>
+          <Button onClick={onOpen} bgColor='yellow.200' color='blackAlpha.700' _hover={{backgroundColor: 'yellow.300'}}>{props.note ? 'Open Note' : 'Save'}</Button>
     
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
@@ -70,7 +74,7 @@ function MovieModal (props) {
               <ModalBody>
                 <Flex direction='column' justify='center' align='center' mb='2%'>
                   <Image src={props.image} alt='image' boxSize='380px' mb='8%' />
-                  <Textarea w='95%' placeholder='Writte your notes about the movie' ref={noteRef}/>
+                  <Textarea w='95%' readOnly={false} value={text} placeholder='Writte your notes about the movie' ref={noteRef} onChange={e => setText(e.target.value)}/>
                 </Flex>
                 <HStack spacing={4}>
 
@@ -105,7 +109,7 @@ function MovieModal (props) {
     
               <ModalFooter>
                   <Button colorScheme='green' mr='42%' onClick={handleSubmit}>
-                    Add
+                    {props.note ? 'Update' : 'Save'}
                   </Button>
               </ModalFooter>
             </ModalContent>

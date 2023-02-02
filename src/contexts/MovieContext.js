@@ -27,7 +27,14 @@ export function MovieProvider(props) {
         note: note,
         label: label,
       }
-    setNotes([...Notes, newNote])
+    const index = Notes.findIndex(m => m.title === newNote.title);
+    if (index === -1) {
+      setNotes([...Notes, newNote]);
+    } else {
+      const newMovies = [...Notes];
+      newMovies.splice(index, 1, newNote);
+      setNotes(newMovies);
+    }
     const newArray = [...new Set([...labels, ...label])];
     setLabels(newArray);
     create(title ,newNote, userId);
